@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sertifika Üretimi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="page-center">
+      <div class="card">
+        <h1>Sertifika Üret</h1>
+
+        <form method="post" action="{{ url_for('generate') }}">
+          <div class="field">
+            <label for="name">Ad Soyad</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="title">Etkinlik Başlığı</label>
+            <input id="title" name="title" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="date">Tarih</label>
+            <input id="date" name="date" type="date" required />
+          </div>
+
+          <div class="field">
+            <label>Arka Plan Rengi</label>
+            <input
+              type="hidden"
+              id="bg_color"
+              name="bg_color"
+              value="#FFF8E7"
+            />
+
+            <div class="color-cards" role="group" aria-label="Arka Plan Rengi">
+              <button
+                type="button"
+                class="color-card selected"
+                data-bg="#FFF8E7"
+                aria-pressed="true"
+              >
+                <span
+                  class="color-dot"
+                  style="background-color: #FFF8E7"
+                ></span>
+                <span class="color-name">Krem (#FFF8E7)</span>
+              </button>
+
+              <button
+                type="button"
+                class="color-card"
+                data-bg="#E8F0FF"
+                aria-pressed="false"
+              >
+                <span class="color-dot" style="background-color: #E8F0FF"></span>
+                <span class="color-name">Açık Mavi (#E8F0FF)</span>
+              </button>
+
+              <button
+                type="button"
+                class="color-card"
+                data-bg="#E8F8EE"
+                aria-pressed="false"
+              >
+                <span class="color-dot" style="background-color: #E8F8EE"></span>
+                <span class="color-name">Açık Yeşil (#E8F8EE)</span>
+              </button>
+
+              <button
+                type="button"
+                class="color-card"
+                data-bg="#EDE8FF"
+                aria-pressed="false"
+              >
+                <span class="color-dot" style="background-color: #EDE8FF"></span>
+                <span class="color-name">Açık Lavanta (#EDE8FF)</span>
+              </button>
+
+              <button
+                type="button"
+                class="color-card"
+                data-bg="#FFFFFF"
+                aria-pressed="false"
+              >
+                <span class="color-dot" style="background-color: #FFFFFF"></span>
+                <span class="color-name">Beyaz (#FFFFFF)</span>
+              </button>
+            </div>
+          </div>
+
+          <button class="btn" type="submit">PDF Oluştur ve İndir</button>
+
+          {% if error %}
+            <div class="error" role="alert">
+              <strong>Hata:</strong> {{ error }}
+            </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var hidden = document.getElementById("bg_color");
+        var cards = Array.prototype.slice.call(
+          document.querySelectorAll(".color-card")
+        );
+
+        cards.forEach(function (card) {
+          card.addEventListener("click", function () {
+            cards.forEach(function (c) {
+              c.classList.remove("selected");
+              c.setAttribute("aria-pressed", "false");
+            });
+
+            card.classList.add("selected");
+            card.setAttribute("aria-pressed", "true");
+            hidden.value = card.getAttribute("data-bg");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
