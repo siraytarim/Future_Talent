@@ -7,31 +7,13 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 
+import os
+
 _DEJAVU_SANS_NAME = "DejaVuSans"
-_FONT_DIR = r"C:\Users\HP\Desktop\FT\dejavu-fonts-ttf-2.37\ttf"
-_dejavu_path = None
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_FONT_DIR = os.path.join(BASE_DIR, "dejavu-fonts-ttf-2.37", "ttf")
+_dejavu_path = os.path.join(_FONT_DIR, "DejaVuSans.ttf")
 
-for p in (
-    r"C:\Users\HP\Desktop\FT\dejavu-fonts-ttf-2.37\ttf\DejaVuSans.ttf",
-    r"C:\Users\HP\Desktop\FT\dejavu-fonts-ttf-2.37\ttf\DejaVuSans.ttf",
-):
-    if os.path.exists(p):
-        _dejavu_path = p
-        break
-
-if not _dejavu_path and os.path.isdir(_FONT_DIR):
-    for filename in os.listdir(_FONT_DIR):
-        if not filename.lower().endswith(".ttf"):
-            continue
-        if "devajusans" in filename.lower().replace(" ", ""):
-            _dejavu_path = os.path.join(_FONT_DIR, filename)
-            break
-
-if not _dejavu_path:
-    raise FileNotFoundError(
-        "DejaVuSans font dosyası bulunamadı; C:\Users\HP\Desktop\FT\dejavu-fonts-ttf-2.37\ttf içinde arandı. "
-        "Türkçe karakterlerin doğru görünmesi için DejaVuSans.ttf yüklemen gerekir."
-    )
 
 pdfmetrics.registerFont(TTFont(_DEJAVU_SANS_NAME, _dejavu_path))
 
